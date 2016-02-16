@@ -22,6 +22,7 @@ gem 'high_voltage'
 gem 'pundit'
 gem 'simple_form'
 gem 'slim-rails'
+gem 'paperclip'
 group :development do
   gem 'better_errors'
   gem 'capistrano', '~> 3.0.1'
