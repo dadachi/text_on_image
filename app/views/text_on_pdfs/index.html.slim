@@ -1,0 +1,28 @@
+.container
+  h1 Listing text_on_pdfs
+
+  table
+    thead
+      tr
+        th Dir
+        th File name
+        th Original dir
+        th Original file name
+        th
+        th
+        th
+
+    tbody
+      - @text_on_pdfs.each do |text_on_pdf|
+        tr
+          td = text_on_pdf.dir
+          td = text_on_pdf.file_name
+          td = text_on_pdf.original_dir
+          td = text_on_pdf.original_file_name
+          td = link_to 'Show', text_on_pdf
+          td = link_to 'Edit', edit_text_on_pdf_path(text_on_pdf)
+          td = link_to 'Destroy', text_on_pdf, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+  br
+
+  = link_to 'New Text on pdf', new_text_on_pdf_path

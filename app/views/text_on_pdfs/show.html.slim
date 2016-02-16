@@ -1,0 +1,18 @@
+p#notice = notice
+
+p
+  strong Dir:
+  = @text_on_pdf.dir
+p
+  strong File name:
+  = @text_on_pdf.file_name
+p
+  strong Original dir:
+  = @text_on_pdf.original_dir
+p
+  strong Original file name:
+  = @text_on_pdf.original_file_name
+
+= link_to 'Edit', edit_text_on_pdf_path(@text_on_pdf)
+'|
+= link_to 'Back', text_on_pdfs_path

@@ -1,0 +1,12 @@
+= simple_form_for(@text_on_pdf) do |f|
+  = f.error_notification
+  
+
+  .form-inputs
+    = f.input :dir
+    = f.input :file_name
+    = f.input :original_dir
+    = f.input :original_file_name
+
+  .form-actions
+    = f.button :submit

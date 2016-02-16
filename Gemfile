@@ -23,6 +23,8 @@ gem 'pundit'
 gem 'simple_form'
 gem 'slim-rails'
 gem 'paperclip'
+gem 'rmagick', '~> 2.15', '>= 2.15.4'
+gem 'wicked_pdf'
 group :development do
   gem 'better_errors'
   gem 'capistrano', '~> 3.0.1'
