@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160216081710) do
+ActiveRecord::Schema.define(version: 20160217093824) do
+
+  create_table "comments", force: :cascade do |t|
+    t.string   "name"
+    t.text     "body"
+    t.integer  "top_position"
+    t.integer  "left_position"
+    t.integer  "top_offset"
+    t.integer  "left_offset"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "text_on_pdfs", force: :cascade do |t|
     t.string   "dir"
