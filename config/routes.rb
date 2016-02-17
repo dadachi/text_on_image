@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :text_on_pdfs
+  resources :comments
   namespace :admin do
     DashboardManifest::DASHBOARDS.each do |dashboard_resource|
       resources dashboard_resource
