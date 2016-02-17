@@ -1,5 +1,7 @@
 class TextOnPdfsController < ApplicationController
+  layout false, only: [:create]
   before_action :set_text_on_pdf, only: [:show, :edit, :update, :destroy]
+  before_action :create_comments, only: [:new]
 
   # GET /text_on_pdfs
   # GET /text_on_pdfs.json
@@ -18,6 +20,10 @@ class TextOnPdfsController < ApplicationController
     TextOnPdf.pdf_to_images
   end
 
+  def generate_pdf
+
+  end
+
   # GET /text_on_pdfs/1/edit
   def edit
   end
@@ -25,17 +31,33 @@ class TextOnPdfsController < ApplicationController
   # POST /text_on_pdfs
   # POST /text_on_pdfs.json
   def create
-    @text_on_pdf = TextOnPdf.new(text_on_pdf_params)
+    # @text_on_pdf = TextOnPdf.new(text_on_pdf_params)
+    #
+    # respond_to do |format|
+    #   if @text_on_pdf.save
+    #     format.html { redirect_to @text_on_pdf, notice: 'Text on pdf was successfully created.' }
+    #     format.json { render :show, status: :created, location: @text_on_pdf }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @text_on_pdf.errors, status: :unprocessable_entity }
+    #   end
+    # end
+    @comments = Comment.where.not(body: '')
 
     respond_to do |format|
-      if @text_on_pdf.save
-        format.html { redirect_to @text_on_pdf, notice: 'Text on pdf was successfully created.' }
-        format.json { render :show, status: :created, location: @text_on_pdf }
-      else
-        format.html { render :new }
-        format.json { render json: @text_on_pdf.errors, status: :unprocessable_entity }
+      @text_on_pdf = TextOnPdf.new(text_on_pdf_params)
+
+      format.pdf do
+        pdf = render_to_string pdf: 'generated_pdf.pdf',
+                               template: 'text_on_pdfs/generated_pdf.pdf',
+                               encording: 'UTF-8',
+                               layout: 'pdf.html',
+                               show_as_html: true
+                              #  show_as_html: params[:debug].present?
+        send_data(pdf)
       end
     end
+
   end
 
   # PATCH/PUT /text_on_pdfs/1
@@ -68,8 +90,16 @@ class TextOnPdfsController < ApplicationController
       @text_on_pdf = TextOnPdf.find(params[:id])
     end
 
+    def create_comments
+      Comment.destroy_all
+      Settings.num_comments_on_pdf.times.each do |i|
+        Comment.create!(name: "comment#{i + 1}")
+      end
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def text_on_pdf_params
-      params.require(:text_on_pdf).permit(:dir, :file_name, :original_dir, :original_file_name)
+      params.require(:text_on_pdf).permit(:dir, :file_name, :original_dir, :original_file_name, :comment1_on_pdf, :comment2_on_pdf, :comment3_on_pdf, :comment4_on_pdf, :comment5_on_pdf)
     end
+
 end

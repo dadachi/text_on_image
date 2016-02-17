@@ -1,6 +1,15 @@
 .container
-  h1 New text_on_pdf
-
-  = image_tag "/images/pdf_sample_0.jpg"
+  .row
+    = simple_form_for @text_on_pdf, format: 'pdf' do |f|
+      .col-md-2
+        .text-center
+          = f.button :submit, 'Generate PDF'
+      - Settings.num_comments_on_pdf.times.each do |i|
+        .col-md-2
+          - comment = Comment.find_by(name: "comment#{i + 1}")
+          = f.input "comment#{i + 1}_on_pdf", as: :text, label: 'Drag Me', wrapper_html: { class: 'draggable', data: { url: comment_path(comment) } }
+  .row
+    .pdf-image-container
+      = image_tag '/images/pdf_sample_0.jpg', class: 'pdf-image'
 
   = link_to 'Back', text_on_pdfs_path

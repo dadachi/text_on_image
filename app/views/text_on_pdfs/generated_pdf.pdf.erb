@@ -1,0 +1,6 @@
+<%= wicked_pdf_image_tag('/images/pdf_sample_0.jpg') %>
+<% @comments.each do |comment| %>
+  <%= content_tag :div, style: "overflow: hidden; position: relative; width: 306px; height: 61px; top: #{comment.top_position}px; left: #{comment.left_position}px; margin: 0px; padding-right: 7px; padding-bottom: 12px;" do %>
+    <%= comment.body %>
+  <% end %>
+<% end %>
