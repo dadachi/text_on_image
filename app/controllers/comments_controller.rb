@@ -1,11 +1,11 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:update]
   def update
-    @comment.body = params[:body]
-    @comment.top_position = params[:top_position]
-    @comment.left_position = params[:left_position]
-    @comment.top_offset = params[:top_offset]
-    @comment.left_offset = params[:left_offset]
+    @comment.body = params[:body] if params[:body].present?
+    @comment.top_position = params[:top_position] if params[:top_position].present?
+    @comment.left_position = params[:left_position] if params[:left_position].present?
+    @comment.top_offset = params[:top_offset] if params[:top_offset].present?
+    @comment.left_offset = params[:left_offset] if params[:left_offset].present?
     @comment.save!
     render nothing: true
   end

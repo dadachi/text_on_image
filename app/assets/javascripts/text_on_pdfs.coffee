@@ -4,15 +4,34 @@
 
 $ ->
   $('.draggable').draggable
-    appendTo: '.pdf-image'
+    appendTo: '.container'
+    containment: '.pdf-image'
     start: (event, ui) ->
       return
     stop: (event, ui) ->
-      alert ui.position['top']
+      console.log 'top: ' + ui.position['top']
+      console.log 'left: ' + ui.position['left']
+      console.log 'offset top: ' + ui.offset['top']
+      console.log 'offset left: ' + ui.offset['left']
+      containerOffsetLeft = $('.container').offset().left
+      console.log 'container offset left: ' + containerOffsetLeft
+      containerPaddingRight = parseInt($('.container').css('paddingRight'), 10)
+      console.log 'container paddingRight: ' + containerPaddingRight
+      bodyOffsetTop = $('body').offset().top
+      console.log 'body offset top: ' + bodyOffsetTop
+      labelHeight = 25
       $.ajax
         method: 'PUT'
         url: $(this).data('url')
-        data: { body: $(this).find('textarea').val(), top_position: ui.position['top'], left_position: ui.position['left'], top_offset: ui.offset['top'], left_offset: ui.offset['left'] }
+        data: { body: $(this).find('textarea').val(), top_position: ui.position['top'], left_position: ui.position['left'], top_offset: ui.offset['top'] - bodyOffsetTop + labelHeight, left_offset: ui.offset['left'] - containerOffsetLeft - containerPaddingRight }
       return
 
-  $('.draggable').find('textarea').resizable()
+  $('textarea').resizable()
+
+  $('textarea').on 'change keyup paste', ->
+    currentVal = $(this).val()
+    $draggable = $(this).closest('.draggable')
+    $.ajax
+      method: 'PUT'
+      url: $draggable.data('url')
+      data: { body: currentVal }
