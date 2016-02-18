@@ -7,10 +7,26 @@ class TextOnPdf < ActiveRecord::Base
   attr_accessor :comment5_on_pdf
 
   def self.pdf_to_images
-    pdf = Magick::ImageList.new(Rails.root.join('public/pdfs/pdf_sample.pdf'))
+    # http://stackoverflow.com/questions/16168798/low-quality-when-converting-pdf-to-jpg
+    # http://stackoverflow.com/questions/32122710/rails-rmagick-converted-image-turns-solid-black-when-resize-to-fit-applied
+    pdf = Magick::ImageList.new(Rails.root.join('public/pdfs/pdf_sample.pdf')) do
+      self.quality = 80
+      self.density = '300'
+      # self.density = '400'
+      self.colorspace = Magick::RGBColorspace
+      self.interlace = Magick::NoInterlace
+    end
 
     pdf.each_with_index do |page_img, i|
+      page_img.format = 'JPEG'
+      page_img.alpha(Magick::DeactivateAlphaChannel)
+      page_img.resize_to_fit!(800, 800)
       page_img.write Rails.root.join("public/images/pdf_sample_#{i}.jpg")
+      # page_img.write Rails.root.join("public/images/pdf_sample_#{i}.jpg") {
+      #   self.quality = 95
+      #   self.density = 400
+      #   self.resize = 25
+      # }
     end
   end
 
