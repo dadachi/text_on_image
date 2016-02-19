@@ -12,7 +12,6 @@ class TextOnPdf < ActiveRecord::Base
     pdf = Magick::ImageList.new(Rails.root.join('public/pdfs/pdf_sample.pdf')) do
       self.quality = 80
       self.density = '300'
-      # self.density = '400'
       self.colorspace = Magick::RGBColorspace
       self.interlace = Magick::NoInterlace
     end
@@ -22,11 +21,22 @@ class TextOnPdf < ActiveRecord::Base
       page_img.alpha(Magick::DeactivateAlphaChannel)
       page_img.resize_to_fit!(800, 800)
       page_img.write Rails.root.join("public/images/pdf_sample_#{i}.jpg")
-      # page_img.write Rails.root.join("public/images/pdf_sample_#{i}.jpg") {
-      #   self.quality = 95
-      #   self.density = 400
-      #   self.resize = 25
-      # }
+
+      TextOnPdf.create!(original_dir: 'public/pdfs',
+        original_file_name: 'pdf_sample.pdf',
+        dir: 'public/images',
+        file_name: "pdf_sample_#{i}.jpg",
+        original_width: page_img.columns,
+        original_height: page_img.rows
+      )
+    end
+  end
+
+  def original_orientation
+    if original_width <= original_height
+      'Portrait'
+    else
+      'Landscape'
     end
   end
 

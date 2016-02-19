@@ -17,6 +17,7 @@ class TextOnPdfsController < ApplicationController
   # GET /text_on_pdfs/new
   def new
     @text_on_pdf = TextOnPdf.new
+    TextOnPdf.destroy_all
     TextOnPdf.pdf_to_images
   end
 
@@ -31,33 +32,22 @@ class TextOnPdfsController < ApplicationController
   # POST /text_on_pdfs
   # POST /text_on_pdfs.json
   def create
-    # @text_on_pdf = TextOnPdf.new(text_on_pdf_params)
-    #
-    # respond_to do |format|
-    #   if @text_on_pdf.save
-    #     format.html { redirect_to @text_on_pdf, notice: 'Text on pdf was successfully created.' }
-    #     format.json { render :show, status: :created, location: @text_on_pdf }
-    #   else
-    #     format.html { render :new }
-    #     format.json { render json: @text_on_pdf.errors, status: :unprocessable_entity }
-    #   end
-    # end
     @comments = Comment.where.not(body: '')
 
     respond_to do |format|
-      @text_on_pdf = TextOnPdf.new(text_on_pdf_params)
+      original_orientation = TextOnPdf.first.original_orientation
 
       format.pdf do
         pdf = render_to_string pdf: 'generated_pdf.pdf',
                                template: 'text_on_pdfs/generated_pdf.pdf',
                                encording: 'UTF-8',
                                layout: 'pdf.html',
+                               orientation: original_orientation,
                                show_as_html: true
                               #  show_as_html: params[:debug].present?
         send_data(pdf)
       end
     end
-
   end
 
   # PATCH/PUT /text_on_pdfs/1

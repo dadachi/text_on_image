@@ -3,7 +3,8 @@
     = simple_form_for @text_on_pdf, format: 'pdf' do |f|
       .col-md-10
         .pdf-image-container
-          = image_tag '/images/pdf_sample_0.jpg', class: 'pdf-image'
+          - TextOnPdf.all.each do |text_on_pdf|
+            = image_tag "/images/#{text_on_pdf.file_name}", class: 'pdf-image', data: { 'original-height': text_on_pdf.original_height, 'original-width': text_on_pdf.original_width, 'original-orientation': text_on_pdf.original_orientation }
       .col-md-2
         .text-center
           = f.button :submit, 'Generate PDF', class: 'btn btn-primary btn-lg'
