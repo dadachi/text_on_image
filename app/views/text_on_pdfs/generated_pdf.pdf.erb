@@ -1,5 +1,7 @@
 <div style="position: relative;">
-  <%= wicked_pdf_image_tag('/images/pdf_sample_0.jpg') %>
+  <% TextOnPdf.all.each do |text_on_pdf| %>
+    <%= wicked_pdf_image_tag "/images/#{text_on_pdf.file_name}" %>
+  <% end %>
   <% @comments.each do |comment| %>
     <%#= content_tag :div, style: "overflow: hidden; position: relative; width: 306px; height: 61px; top: #{comment.top_position}px; left: #{comment.left_position}px; margin: 0px; padding-right: 7px; padding-bottom: 12px;" do %>
     <%= content_tag :div, style: "position: absolute; left: #{comment.left_offset}px; top: #{comment.top_offset}px; color: red; font-weight: bold;" do %>

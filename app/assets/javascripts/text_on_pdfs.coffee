@@ -5,7 +5,7 @@
 $ ->
   $('.draggable').draggable
     appendTo: '.container'
-    containment: '.pdf-image'
+    containment: '.pdf-image-container'
     start: (event, ui) ->
       return
     stop: (event, ui) ->
@@ -35,3 +35,5 @@ $ ->
       method: 'PUT'
       url: $draggable.data('url')
       data: { body: currentVal }
+
+  $('.pdf-image').width($('.pdf-image').data('original-width')) if $('.pdf-image').data('original-orientation') == 'Portrait'

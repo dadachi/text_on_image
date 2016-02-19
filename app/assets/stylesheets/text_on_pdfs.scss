@@ -2,11 +2,15 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.pdf-image {
+.pdf-image-container {
   width: 800px;
-  border: 1px solid black;
-  float: left;
-  z-index: -1000;
+  overflow: hidden;
+  .pdf-image {
+    width: 800px;
+    border: 1px solid black;
+    float: left;
+    z-index: -1000;
+  }
 }
 
 .draggable {
