@@ -28,6 +28,7 @@ Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.
 
 Getting Started
 ---------------
+    brew install imagemagick --with-ghostscript
 
 Documentation and Support
 -------------------------
