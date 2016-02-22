@@ -36,4 +36,7 @@ $ ->
       url: $draggable.data('url')
       data: { body: currentVal }
 
-  $('.pdf-image').width($('.pdf-image').data('original-width')) if $('.pdf-image').data('original-orientation') == 'Portrait'
+  if $('.pdf-image').attr('data-width') != 'null'
+    $('.pdf-image').width($('.pdf-image').data('width'))
+  else
+    $('.pdf-image').width($('.pdf-image').data('original-width'))

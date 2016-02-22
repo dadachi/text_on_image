@@ -50,6 +50,18 @@ class TextOnPdfsController < ApplicationController
     end
   end
 
+  def rotate
+    TextOnPdf.all.each do |text_on_pdf|
+      text_on_pdf.rotate!
+    end
+
+    @text_on_pdf = TextOnPdf.new
+
+    respond_to do |format|
+      format.html { render new_text_on_pdf_path }
+    end
+  end
+
   # PATCH/PUT /text_on_pdfs/1
   # PATCH/PUT /text_on_pdfs/1.json
   def update
