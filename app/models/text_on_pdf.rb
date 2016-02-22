@@ -32,8 +32,33 @@ class TextOnPdf < ActiveRecord::Base
     end
   end
 
+  def rotate!
+    if width.blank? || height.blank?
+      self.width = original_height
+      self.height = original_width
+    else
+      tmp_width = width
+      self.width = height
+      self.height = tmp_width
+    end
+    save!
+
+    images = Magick::Image.read(Rails.root.join("#{dir}/#{file_name}"))
+    rotated_image = images[0].rotate(90)
+    rotated_image.write Rails.root.join("#{dir}/#{file_name}")
+  end
+
   def original_orientation
     if original_width <= original_height
+      'Portrait'
+    else
+      'Landscape'
+    end
+  end
+
+  def orientation
+    return nil if width.blank? || height.blank?
+    if width <= height
       'Portrait'
     else
       'Landscape'

@@ -4,10 +4,12 @@
       .col-md-10
         .pdf-image-container
           - TextOnPdf.all.each do |text_on_pdf|
-            = image_tag "/images/#{text_on_pdf.file_name}", class: 'pdf-image', data: { 'original-height': text_on_pdf.original_height, 'original-width': text_on_pdf.original_width, 'original-orientation': text_on_pdf.original_orientation }
+            = image_tag "/images/#{text_on_pdf.file_name}", class: 'pdf-image', data: { 'original-height': text_on_pdf.original_height, 'original-width': text_on_pdf.original_width, 'original-orientation': text_on_pdf.original_orientation, 'height': text_on_pdf.height, 'width': text_on_pdf.width, 'orientation': text_on_pdf.orientation }
       .col-md-2
         .text-center
           = f.button :submit, 'Generate PDF', class: 'btn btn-primary btn-lg'
         - Settings.num_comments_on_pdf.times.each do |i|
           - comment = Comment.find_by(name: "comment#{i + 1}")
           = f.input "comment#{i + 1}_on_pdf", as: :text, label: 'Drag Me', wrapper_html: { class: 'draggable', data: { url: comment_path(comment) } }
+        .text-center
+          = link_to 'Rotate', rotate_text_on_pdfs_path, method: :post, class: 'btn btn-default btn-md'
